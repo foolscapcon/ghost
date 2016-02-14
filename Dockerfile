@@ -18,6 +18,8 @@ RUN arch="$(dpkg --print-architecture)" \
 	&& chmod +x /usr/local/bin/gosu
 
 ENV GHOST_SOURCE /usr/src/ghost
+ENV GHOST_SOURCE_CONTENT /usr/src/ghost-content
+VOLUME $GHOST_SOURCE_CONTENT
 WORKDIR $GHOST_SOURCE
 
 ENV GHOST_VERSION 0.7.6
@@ -40,6 +42,7 @@ RUN buildDeps=' \
 
 ENV GHOST_CONTENT /var/lib/ghost
 RUN mkdir -p "$GHOST_CONTENT" && chown -R user:user "$GHOST_CONTENT"
+RUN mkdir -p "$GHOST_CONTENT/themes" && chown user:user "$GHOST_CONTENT/themes"
 VOLUME $GHOST_CONTENT
 
 COPY docker-entrypoint.sh /entrypoint.sh

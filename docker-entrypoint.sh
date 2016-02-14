@@ -2,7 +2,7 @@
 set -e
 
 if [[ "$*" == npm*start* ]]; then
-	for dir in "$GHOST_SOURCE/content"/*/; do
+	for dir in "$GHOST_SOURCE_CONTENT"/*/; do
 		targetDir="$GHOST_CONTENT/$(basename "$dir")"
 		mkdir -p "$targetDir"
 		if [ -z "$(ls -A "$targetDir")" ]; then
@@ -17,7 +17,7 @@ if [[ "$*" == npm*start* ]]; then
 		' "$GHOST_SOURCE/config.example.js" > "$GHOST_CONTENT/config.js"
 	fi
 
-	ln -sf "$GHOST_CONTENT/config.js" "$GHOST_SOURCE/config.js"
+	ln -sf "$GHOST_SOURCE_CONTENT/content/config.js" "$GHOST_SOURCE/config.js"
 
 	chown -R user "$GHOST_CONTENT"
 
