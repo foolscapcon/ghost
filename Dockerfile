@@ -41,13 +41,15 @@ RUN buildDeps=' \
 	&& rm -rf /tmp/npm*
 
 ENV GHOST_CONTENT /var/lib/ghost
-RUN mkdir -p "$GHOST_CONTENT" && chown user:user "$GHOST_CONTENT"
+RUN mkdir -p "$GHOST_CONTENT" && chown user:user "$GHOST_CONTENT" 
 VOLUME $GHOST_CONTENT
 
 COPY docker-entrypoint.sh /entrypoint.sh
-COPY config.js "$GHOST_CONTENT/config.js"
+#COPY config.js "$GHOST_CONTENT/config.js"
+COPY config.js "$GHOST_SOURCE/config.js"
 #RUN ln -sfv "$DOCKER_GHOST/docker-entrypoint.sh" /entrypoint.sh
 #RUN ln -sfv "$GHOST_SOURCE_CONTENT/config/config.js" "$GHOST_CONTENT/config.js"
+RUN chown user:user "$GHOST_SOURCE"
 ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 2368

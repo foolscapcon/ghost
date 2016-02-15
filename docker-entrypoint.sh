@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -exv
 
 if [[ "$*" == npm*start* ]]; then
 	# for dir in "$GHOST_SOURCE_CONTENT"/*/; do
@@ -10,9 +10,12 @@ if [[ "$*" == npm*start* ]]; then
 	# 	fi
 	# done
 
-	chown -Rf user "$GHOST_CONTENT"
-        cp "$GHOST_SOURCE_CONTENT/config/config.js" "$GHOST_CONTENT/config.js"
-	set -- gosu user "$@"
+    #mkdir -p "$GHOST_CONTENT"
+    #cp "$GHOST_CONFIG_JS" "$GHOST_CONTENT/config.js"
+    ( set +e
+      chown -R user "$GHOST_CONTENT" 
+      true )
+    set -- gosu user "$@"
 fi
 
 exec "$@"

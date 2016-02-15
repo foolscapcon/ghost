@@ -16,7 +16,7 @@ config = {
         database: {
             client: 'sqlite3',
             connection: {
-                filename: path.join(__dirname, '/content/data/ghost.db')
+                filename: path.join(process.env.GHOST_CONTENT, 'data/ghost.db')
             },
             debug: false
         },
@@ -31,29 +31,11 @@ config = {
     development: {
         // The url to use when providing links to the site, E.g. in RSS and email.
         // Change this to your Ghost blog's published URL.
-        url: 'http://localhost:' + process.env.VIRTUAL_PORT,
-
-        // Example mail config
-        // Visit http://support.ghost.org/mail for instructions
-        // ```
-        //  mail: {
-        //      transport: 'SMTP',
-        //      options: {
-        //          service: 'Mailgun',
-        //          auth: {
-        //              user: '', // mailgun username
-        //              pass: ''  // mailgun password
-        //          }
-        //      }
-        //  },
-        // ```
-
-        // #### Database
-        // Ghost supports sqlite3 (default), MySQL & PostgreSQL
+        url: process.env.VIRTUAL_HOST + ":" + process.env.VIRTUAL_PORT,
         database: {
             client: 'sqlite3',
             connection: {
-                filename: path.join(__dirname, '/content/data/ghost-dev.db')
+                filename: path.join(process.env.GHOST_CONTENT, 'data/ghost.db')
             },
             debug: false
         },
@@ -68,79 +50,11 @@ config = {
         // #### Paths
         // Specify where your content directory lives
         paths: {
-            contentPath: path.join(__dirname, '/content/')
+            contentPath: path.join(process.env.GHOST_CONTENT, '')
         }
     },
 
-    // **Developers only need to edit below here**
 
-    // ### Testing
-    // Used when developing Ghost to run tests and check the health of Ghost
-    // Uses a different port number
-    testing: {
-        url: 'http://127.0.0.1:2369',
-        database: {
-            client: 'sqlite3',
-            connection: {
-                filename: path.join(__dirname, '/content/data/ghost-test.db')
-            },
-            pool: {
-                afterCreate: function (conn, done) {
-                    conn.run('PRAGMA synchronous=OFF;' +
-                    'PRAGMA journal_mode=MEMORY;' +
-                    'PRAGMA locking_mode=EXCLUSIVE;' +
-                    'BEGIN EXCLUSIVE; COMMIT;', done);
-                }
-            }
-        },
-        server: {
-            host: '127.0.0.1',
-            port: '2369'
-        },
-        logging: false
-    },
-
-    // ### Testing MySQL
-    // Used by Travis - Automated testing run through GitHub
-    'testing-mysql': {
-        url: 'http://127.0.0.1:2369',
-        database: {
-            client: 'mysql',
-            connection: {
-                host     : '127.0.0.1',
-                user     : 'root',
-                password : '',
-                database : 'ghost_testing',
-                charset  : 'utf8'
-            }
-        },
-        server: {
-            host: '127.0.0.1',
-            port: '2369'
-        },
-        logging: false
-    },
-
-    // ### Testing pg
-    // Used by Travis - Automated testing run through GitHub
-    'testing-pg': {
-        url: 'http://127.0.0.1:2369',
-        database: {
-            client: 'pg',
-            connection: {
-                host     : '127.0.0.1',
-                user     : 'postgres',
-                password : '',
-                database : 'ghost_testing',
-                charset  : 'utf8'
-            }
-        },
-        server: {
-            host: '127.0.0.1',
-            port: '2369'
-        },
-        logging: false
-    }
 };
 
 module.exports = config;
